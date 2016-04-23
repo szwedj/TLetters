@@ -22,3 +22,22 @@ W folderze z danymi przechowujemy:
   * ąęćłńóśźż
   * ĄĘĆŁŃÓŚŹŻ
   * 0-9
+  
+## Gradle
+
+### Run Main class
+```shell
+gradle run
+```
+
+### Run tests
+```shell
+gradle test
+```
+Test reports path: build/reports/tests
+
+### Generate tests coverage report
+```shell
+gradle check
+```
+Coverage reports path: build/reports/jacoco
