@@ -15,7 +15,7 @@ public class FeaturesExtractor {
     }
 
     public void extractFeatures(ExtractionAlgorithm algorithm, BufferedImage image, String name){
-        Double[] features = algorithm.extract(image);
+        Double[] features = algorithm.extractFeatures(image);
         saveFeatures(name, features);
     }
 
