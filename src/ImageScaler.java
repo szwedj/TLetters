@@ -1,4 +1,4 @@
-package tletters.imagegeneration;
+package tletters.imagescaler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
