@@ -1,4 +1,4 @@
-package FeatureExtraction;
+package featureextraction;
 
 import java.awt.image.BufferedImage;
 
