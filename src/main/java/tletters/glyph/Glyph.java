@@ -1,4 +1,4 @@
-package glyph;
+package tletters.glyph;
 
 public class Glyph {
     private double[] featureVector;
