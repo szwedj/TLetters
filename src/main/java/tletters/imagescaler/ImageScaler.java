@@ -1,7 +1,13 @@
 package tletters.imagescaler;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.File;
@@ -64,7 +70,6 @@ public class ImageScaler {
         char unicodeChar = unicode.charAt(0);
         String hex = String.format("%04x", (int) unicodeChar);
         File outputfile = new File(hex + ".png");
-
         BufferedImage imageAfterScal = new BufferedImage(64, 64, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphicAfterScal = imageAfterScal.createGraphics();
         try {
@@ -100,13 +105,11 @@ public class ImageScaler {
         } else {
             font = new Font(fontName, Font.PLAIN, 50);
         }
-
         graphic.setFont(font);
         FontMetrics fontMetrics = graphic.getFontMetrics();
         int width = fontMetrics.stringWidth(unicode) + 4;
         int height = fontMetrics.getHeight() + 4;
         graphic.dispose();
-
         imageBeforeScal = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
         graphic = imageBeforeScal.createGraphics();
         graphic.setColor(Color.black);
@@ -128,4 +131,5 @@ public class ImageScaler {
         image = cutImage(image);
         saveScalImage(image, unicode);
     }
+
 }

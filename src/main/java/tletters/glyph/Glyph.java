@@ -1,11 +1,12 @@
 package tletters.glyph;
 
 public class Glyph {
+
     private double[] featureVector;
     private GlyphCase glyphCase;
     private GlyphType glyphType;
     private LanguageType glyphLanguage;
-    private Character character;
+    private final char character;
 
     public enum GlyphCase {
         UPPER, LOWER
@@ -15,7 +16,7 @@ public class Glyph {
         DIGIT, LETTER
     }
 
-    public Glyph(double[] featureVector, GlyphCase glyphCase, GlyphType glyphType, LanguageType glyphLanguage, Character character) {
+    public Glyph(double[] featureVector, GlyphCase glyphCase, GlyphType glyphType, LanguageType glyphLanguage, char character) {
         this.featureVector = featureVector;
         this.glyphCase = glyphCase;
         this.glyphType = glyphType;
@@ -84,4 +85,5 @@ public class Glyph {
     public void setGlyphLanguage(LanguageType glyphLanguage) {
         this.glyphLanguage = glyphLanguage;
     }
+
 }
