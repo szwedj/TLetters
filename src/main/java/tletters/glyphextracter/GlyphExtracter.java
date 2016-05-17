@@ -1,35 +1,36 @@
 package tletters.glyphextracter;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GlyphExtracter {
 
-    public List<BufferedImage> lettersAfterCrop;
+    public List<BufferedImage> letters;
 
     private BufferedImage image;
-    private List<BufferedImage> letters;
-    private List<BufferedImage> lines;
+    public List<BufferedImage> lines;
 
     public void setImage(BufferedImage image) {
         this.image = image;
     }
 
-    public List<BufferedImage> scalpel() throws IOException {
+    public List<BufferedImage> scalpel() {
         cutLineWithText();
         cutLettersWithLines();
-        trim();
-        return lettersAfterCrop;
+        return letters;
     }
 
-    private void cutLineWithText() throws IOException {
+    private void cutLineWithText() {
         lines = new ArrayList<>();
         int point = 0;
+        boolean add = false;
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 if (existBlackPixel(image, x, y)) {
+                    if (y == image.getHeight() - 1) {
+                        add = true;
+                    }
                     break;
                 }
                 if (image.getWidth() - 1 == x && y != 0) {
@@ -40,51 +41,38 @@ public class GlyphExtracter {
                 }
             }
         }
+        if (add) {
+            lines.add(image.getSubimage(0, point, image.getWidth(), image.getHeight() - point));
+        }
     }
 
-    private void cutLettersWithLines() throws IOException {
+    private void cutLettersWithLines() {
         letters = new ArrayList<>();
+        boolean add;
         for (int i = 0; i < lines.size(); i++) {
             int point = 0;
+            add = false;
             for (int x = 0; x < lines.get(i).getWidth(); x++) {
                 for (int y = 0; y < lines.get(i).getHeight(); y++) {
                     if (existBlackPixel(lines.get(i), x, y)) {
+                        if (x == lines.get(i).getWidth() - 1) {
+                            add = true;
+                        }
                         break;
                     }
                     if (x != 0 && lines.get(i).getHeight() - 1 == y) {
                         if (x - point > 1) {
-                            letters.add(lines.get(i).getSubimage(point + 1, 0, x - point - 1, lines.get(i).getHeight()));
+                            letters.add(lines.get(i).getSubimage(point, 0, x - point + 1, lines.get(i).getHeight()));
                         }
                         point = x;
                     }
                 }
             }
+            if (add) {
+                letters.add(lines.get(i).getSubimage(point, 0, lines.get(i).getWidth() - point, lines.get(i).getHeight()));
+            }
         }
-    }
 
-    private void trim() throws IOException {
-        lettersAfterCrop = new ArrayList<>();
-        int up;
-        int down;
-        for (int i = 0; i < letters.size(); i++) {
-            up = 0;
-            down = 0;
-            for (int y = 0; y < letters.get(i).getHeight(); y++) {
-                for (int x = 0; x < letters.get(i).getWidth(); x++) {
-                    if (existBlackPixel(letters.get(i), x, y)) {
-                        down = y;
-                    }
-                }
-            }
-            for (int y = letters.get(i).getHeight() - 1; y >= 0; y--) {
-                for (int x = 0; x < letters.get(i).getWidth(); x++) {
-                    if (existBlackPixel(letters.get(i), x, y)) {
-                        up = y;
-                    }
-                }
-            }
-            lettersAfterCrop.add(letters.get(i).getSubimage(0, up, letters.get(i).getWidth(), down - up));
-        }
     }
 
     private boolean existBlackPixel(BufferedImage image, int x, int y) {

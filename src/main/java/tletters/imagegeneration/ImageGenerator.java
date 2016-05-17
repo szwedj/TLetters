@@ -49,6 +49,7 @@ public class ImageGenerator {
         g2d.setBackground(Color.WHITE);
         g2d.clearRect(0, 0, width, height);
         g2d.drawString(text, 0, metrics.getAscent() + 2);
+        g2d.dispose();
         cropImage();
         generateNoise(noisePercentage);
     }
@@ -87,7 +88,7 @@ public class ImageGenerator {
     private boolean checkHorizontalLine(int line) {
         int width = image.getWidth();
         for (int i = 0; i < width; i++) {
-            if (image.getRGB(i, line) != -1) {
+            if (image.getRGB(i, line) <= -16350000 && image.getRGB(i, line) > -17000000) {
                 return true;
             }
         }
@@ -97,7 +98,7 @@ public class ImageGenerator {
     private boolean checkVerticalLine(int line) {
         int height = image.getHeight();
         for (int i = 0; i < height; i++) {
-            if (image.getRGB(line, i) != -1) {
+            if (image.getRGB(line, i) <= -16350000 && image.getRGB(line, i) > -17000000) {
                 return true;
             }
         }
