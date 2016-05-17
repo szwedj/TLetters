@@ -1,0 +1,9 @@
+apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin'
+
+
+javafx {
+    appName = 'TLetters'
+    mainClass = 'tletters.gui.App'
+    version = rootProject.version
+    verbose = true
+}
