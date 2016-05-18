@@ -5,7 +5,9 @@ import tletters.knnclassifier.Classifier;
 import tletters.knnclassifier.DistanceMeter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Test {
     private Classifier classifier;
@@ -43,14 +45,12 @@ public class Test {
     }
 
     private void classifierFit() {
-        List<double[]> glyphVectors = new ArrayList<>(glyphs.size());
+        List<List<Double>> glyphVectors = new ArrayList<>(glyphs.size());
         List<Integer> glyphClasses = new ArrayList<>(glyphs.size());
-
         for (Glyph g : glyphs) {
-            glyphVectors.add(g.getFeatureVector());
-            glyphClasses.add(Character.getNumericValue(g.getGlyphCharacter()));
+            glyphVectors.add(new ArrayList<Double>(Arrays.stream(g.getFeatureVector()).boxed().collect(Collectors.toList())));
+            glyphClasses.add((int) g.getCharacter());
         }
-
         classifier.fit(glyphVectors, glyphClasses, distanceMeter);
     }
 
@@ -61,8 +61,6 @@ public class Test {
         for (double d : vector) {
             listVector.add(d);
         }
-
         return (char)(classifier.predict(listVector).intValue());
-
     }
 }

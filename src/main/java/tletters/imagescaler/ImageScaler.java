@@ -71,10 +71,7 @@ public class ImageScaler {
         return image.getSubimage(left, top, right - left + 1, bottom - top + 1);
     }
 
-    private void saveScalImage(BufferedImage image, String unicode) {
-        char unicodeChar = unicode.charAt(0);
-        String hex = String.format("%04x", (int) unicodeChar);
-        File outputfile = new File(hex + ".png");
+    private BufferedImage getScalImage(BufferedImage image) {
         BufferedImage imageAfterScal = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphicAfterScal = imageAfterScal.createGraphics();
         try {
@@ -83,8 +80,15 @@ public class ImageScaler {
         } finally {
             graphicAfterScal.dispose();
         }
+        return imageAfterScal;
+    }
+
+    private void saveScalImage(BufferedImage image, String unicode) {
+        char unicodeChar = unicode.charAt(0);
+        String hex = String.format("%04x", (int) unicodeChar);
+        File outputfile = new File(hex + ".png");
         try {
-            ImageIO.write(imageAfterScal, "png", outputfile);
+            ImageIO.write(getScalImage(image), "png", outputfile);
         } catch (IOException ex) {
             Logger.getLogger(ImageScaler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -143,6 +147,7 @@ public class ImageScaler {
             throw new IllegalArgumentException("Image can not be null!");
         }
         image = cutImage(image);
+        image = getScalImage(image);
         return image;
     }
 

@@ -6,7 +6,7 @@ public class Glyph {
     private GlyphCase glyphCase;
     private GlyphType glyphType;
     private LanguageType glyphLanguage;
-    private final char character;
+    private char character;
 
     public enum GlyphCase {
         UPPER, LOWER
@@ -16,10 +16,10 @@ public class Glyph {
         DIGIT, LETTER
     }
 
-    public Glyph(double[] featureVector, GlyphCase glyphCase, GlyphType glyphType, LanguageType glyphLanguage, char character) {
+    public Glyph(double[] featureVector, LanguageType glyphLanguage, char character) {
         this.featureVector = featureVector;
-        this.glyphCase = glyphCase;
-        this.glyphType = glyphType;
+        this.glyphCase = Character.isUpperCase(character) ? GlyphCase.UPPER : GlyphCase.LOWER;
+        this.glyphType = Character.isAlphabetic(character) ? GlyphType.LETTER : GlyphType.DIGIT;
         this.glyphLanguage = glyphLanguage;
         this.character = character;
         this.validateGlyph();
@@ -84,6 +84,14 @@ public class Glyph {
 
     public void setGlyphLanguage(LanguageType glyphLanguage) {
         this.glyphLanguage = glyphLanguage;
+    }
+
+    public char getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(char character) {
+        this.character = character;
     }
 
 }
