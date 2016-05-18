@@ -1,5 +1,7 @@
 package tletters.imagegeneration;
 
+import tletters.image.ImageUtils;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -19,19 +21,6 @@ public class ImageGenerator {
 
     private BufferedImage image;
 
-    public static final Map<RenderingHints.Key, Object> RENDERING_PROPERTIES = new HashMap<>();
-
-    static {
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-    }
-
     public void generateImage(Font font, float fontSize, String text, float noisePercentage) {
         font = font.deriveFont(fontSize);
         image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -43,7 +32,7 @@ public class ImageGenerator {
         g2d.dispose();
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g2d = image.createGraphics();
-        g2d.setRenderingHints(RENDERING_PROPERTIES);
+        g2d.setRenderingHints(ImageUtils.RENDERING_PROPERTIES);
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
         g2d.setBackground(Color.WHITE);
@@ -88,7 +77,7 @@ public class ImageGenerator {
     private boolean checkHorizontalLine(int line) {
         int width = image.getWidth();
         for (int i = 0; i < width; i++) {
-            if (image.getRGB(i, line) <= -16350000 && image.getRGB(i, line) > -17000000) {
+            if (ImageUtils.isBlack(image, i, line)) {
                 return true;
             }
         }
@@ -98,7 +87,7 @@ public class ImageGenerator {
     private boolean checkVerticalLine(int line) {
         int height = image.getHeight();
         for (int i = 0; i < height; i++) {
-            if (image.getRGB(line, i) <= -16350000 && image.getRGB(line, i) > -17000000) {
+            if (ImageUtils.isBlack(image, line, i)) {
                 return true;
             }
         }

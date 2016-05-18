@@ -1,4 +1,4 @@
-package tletters.knnclassifier;
+package tletters.knnclassification;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,8 +18,8 @@ public class EuclideanDistanceMeter<VAL extends Number> implements DistanceMeter
             diff = it_lhs.next().doubleValue() - it_rhs.next().doubleValue();
             result += diff * diff;
         }
-//		becouse of the fact that distances are only compared to each other in knn algorithm we can omit commputing sqrt
-//		return Math.sqrt(result);
+        //becouse of the fact that distances are only compared to each other in knn algorithm we can omit commputing sqrt
+        //return Math.sqrt(result);
         return result;
     }
 

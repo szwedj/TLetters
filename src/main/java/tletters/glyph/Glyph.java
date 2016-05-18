@@ -6,7 +6,7 @@ public class Glyph {
     private GlyphCase glyphCase;
     private GlyphType glyphType;
     private LanguageType glyphLanguage;
-    private char character;
+    private final char character;
 
     public enum GlyphCase {
         UPPER, LOWER
@@ -88,10 +88,6 @@ public class Glyph {
 
     public char getCharacter() {
         return character;
-    }
-
-    public void setCharacter(char character) {
-        this.character = character;
     }
 
 }

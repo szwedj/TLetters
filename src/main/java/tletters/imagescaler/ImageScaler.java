@@ -1,5 +1,8 @@
 package tletters.imagescaler;
 
+import tletters.image.ImageUtils;
+
+import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -7,7 +10,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,22 +22,9 @@ import java.util.regex.Pattern;
 
 public class ImageScaler {
 
-    public static final Map<RenderingHints.Key, Object> RENDERING_PROPERTIES = new HashMap<>();
-
-    static {
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        RENDERING_PROPERTIES.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-    }
-
     private boolean checkHorizontalLine(BufferedImage image, int line, int width) {
         for (int i = 0; i < width; i++) {
-            if (image.getRGB(i, line) <= -16350000 && image.getRGB(i, line) > -17000000) {
+            if (ImageUtils.isBlack(image, i, line)) {
                 return true;
             }
         }
@@ -44,7 +33,7 @@ public class ImageScaler {
 
     private boolean checkVerticalLine(BufferedImage image, int line, int height) {
         for (int i = 0; i < height; i++) {
-            if (image.getRGB(line, i) <= -16350000 && image.getRGB(line, i) > -17000000) {
+            if (ImageUtils.isBlack(image, line, i)) {
                 return true;
             }
         }
@@ -75,7 +64,7 @@ public class ImageScaler {
         BufferedImage imageAfterScal = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphicAfterScal = imageAfterScal.createGraphics();
         try {
-            graphicAfterScal.setRenderingHints(RENDERING_PROPERTIES);
+            graphicAfterScal.setRenderingHints(ImageUtils.RENDERING_PROPERTIES);
             graphicAfterScal.drawImage(image, 0, 0, 64, 64, null);
         } finally {
             graphicAfterScal.dispose();
@@ -121,7 +110,7 @@ public class ImageScaler {
         graphic.dispose();
         imageBeforeScal = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphic = imageBeforeScal.createGraphics();
-        graphic.setRenderingHints(RENDERING_PROPERTIES);
+        graphic.setRenderingHints(ImageUtils.RENDERING_PROPERTIES);
         graphic.setColor(Color.BLACK);
         graphic.setFont(font);
         int x = 0;
@@ -147,8 +136,7 @@ public class ImageScaler {
             throw new IllegalArgumentException("Image can not be null!");
         }
         image = cutImage(image);
-        image = getScalImage(image);
-        return image;
+        return getScalImage(image);
     }
 
 }

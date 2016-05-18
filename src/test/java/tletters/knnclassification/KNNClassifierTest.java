@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tletters.knnclassifier;
+package tletters.knnclassification;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,12 +49,12 @@ public class KNNClassifierTest
 
 
 	/**
-	 * Test of predict method, of class KNNClassifier.
+	 * GlyphClassifier of predict method, of class KNNClassifier.
 	 */
 	@Test
 	public void testPredict()
 	{
-		System.out.println("KNNClassifier.predict test");
+		System.out.println("KNNClassifier.predict glyphclassification");
 		{
 			DistanceMeter<Double> dm = new EuclideanDistanceMeter();
 
