@@ -1,4 +1,4 @@
-package tletters.imagescaler;
+package tletters.imagescaling;
 
 import tletters.image.ImageUtils;
 
@@ -9,12 +9,9 @@ import java.awt.FontFormatException;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,16 +42,16 @@ public class ImageScaler {
         int left = 0, top = 0;
         int right = width - 1;
         int bottom = height - 1;
-        while (!checkHorizontalLine(image, top, width)) {
+        while (top < height - 1 && !checkHorizontalLine(image, top, width)) {
             top++;
         }
-        while (!checkVerticalLine(image, left, height)) {
+        while (left < width - 1 && !checkVerticalLine(image, left, height)) {
             left++;
         }
-        while (!checkHorizontalLine(image, bottom, width)) {
+        while (bottom > top && !checkHorizontalLine(image, bottom, width)) {
             bottom--;
         }
-        while (!checkVerticalLine(image, right, height)) {
+        while (right > left && !checkVerticalLine(image, right, height)) {
             right--;
         }
         return image.getSubimage(left, top, right - left + 1, bottom - top + 1);
@@ -84,7 +81,7 @@ public class ImageScaler {
     }
 
     public void scalImage(String unicode, String fontName) {
-        if (Objects.equals("", unicode) || Objects.equals("", fontName)) {
+        if (unicode == null || unicode.equals("") || fontName == null || fontName.equals("")) {
             throw new IllegalArgumentException("Unicode and fontName can not be empty or null!");
         }
         BufferedImage imageBeforeScal = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -124,7 +121,7 @@ public class ImageScaler {
     }
 
     public void scalImage(String unicode, BufferedImage image) {
-        if (Objects.equals("", unicode) || image == null) {
+        if (unicode == null || unicode.equals("") || image == null) {
             throw new IllegalArgumentException("Unicode and image can not be empty or null!");
         }
         image = cutImage(image);

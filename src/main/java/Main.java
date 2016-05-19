@@ -4,7 +4,7 @@ import tletters.glyph.LanguageType;
 import tletters.glyphclassification.GlyphClassifier;
 import tletters.glyphextraction.GlyphExtractor;
 import tletters.imagegeneration.ImageGenerator;
-import tletters.imagescaler.ImageScaler;
+import tletters.imagescaling.ImageScaler;
 import tletters.knnclassification.EuclideanDistanceMeter;
 import tletters.knnclassification.KNNClassifier;
 
@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         ImageGenerator imageGenerator = new ImageGenerator();
         String letters = "abcdefghijklmnoprstuwyzABCDEFGHIJKLMNOPRSTUWYZ";
-        Font font = new Font("Time New Roman", Font.PLAIN, 16);
+        Font font = new Font("Arial", Font.PLAIN, 16);
         imageGenerator.generateImage(font, 48, letters, 0);
         GlyphExtractor glyphExtractor = new GlyphExtractor();
         glyphExtractor.setImage(imageGenerator.getGeneratedImage());
@@ -33,7 +33,7 @@ public class Main {
             scaledLettersList.add(scaledImage);
         }
         Zoning zoning = new Zoning();
-        List<Glyph> glyphList = new ArrayList<Glyph>();
+        List<Glyph> glyphList = new ArrayList<>();
         int i = 0;
         for (BufferedImage image : scaledLettersList) {
             Character character = letters.charAt(i);

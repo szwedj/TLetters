@@ -8,7 +8,7 @@ import java.util.Collection;
  */
 public interface Classifier<VAL extends Number> {
 
-    void fit(Collection<Collection<VAL>> descriptions, Collection<Integer> classes, DistanceMeter<VAL> distancemeter);
+    void fit(Collection<Collection<VAL>> descriptions, Collection<Integer> classes, DistanceMeter<VAL> distanceMeter);
 
     int predict(Collection<VAL> description);
 

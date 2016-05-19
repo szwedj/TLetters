@@ -13,21 +13,21 @@ public class GlyphTest {
     public void testWillThrowExceptionWhenGlyphCaseDoesNotMatchCharacterCase() {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Character case and glyphCase do not match");
-        new Glyph(new double[0], LanguageType.GENERAL_PL, 'c');
+        new Glyph(new double[0], LanguageType.GENERAL_PL, 'c').setGlyphCase(Glyph.GlyphCase.UPPER);
     }
 
     @Test
     public void testWillThrowExceptionWhenGlyphTypeDoesNotMatchCharacterType() {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Character type and glyphType do not match");
-        new Glyph(new double[0], LanguageType.GENERAL_PL, '1');
+        new Glyph(new double[0], LanguageType.GENERAL_PL, '1').setGlyphType(Glyph.GlyphType.LETTER);
     }
 
     @Test
     public void testWillThrowExceptionWhenGlyphTypeIsDigitAndGlyphCaseIsLower() {
         expectedEx.expect(IllegalArgumentException.class);
         expectedEx.expectMessage("Character case and glyphCase do not match");
-        new Glyph(new double[0], LanguageType.GENERAL_PL, '1');
+        new Glyph(new double[0], LanguageType.GENERAL_PL, '1').setGlyphCase(Glyph.GlyphCase.UPPER);
     }
 
     @Test

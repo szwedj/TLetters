@@ -1,4 +1,4 @@
-package tletters.imagescaler;
+package tletters.imagescaling;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

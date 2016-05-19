@@ -6,15 +6,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class ImageGenerator {
@@ -56,19 +53,19 @@ public class ImageGenerator {
 
     private void cropImage() {
         int top = 0;
-        while (!checkHorizontalLine(top)) {
+        while (top < image.getHeight() - 1 && !checkHorizontalLine(top)) {
             top++;
         }
         int left = 0;
-        while (!checkVerticalLine(left)) {
+        while (left < image.getWidth() - 1 && !checkVerticalLine(left)) {
             left++;
         }
         int bottom = image.getHeight() - 1;
-        while (!checkHorizontalLine(bottom)) {
+        while (bottom > top && !checkHorizontalLine(bottom)) {
             bottom--;
         }
         int right = image.getWidth() - 1;
-        while (!checkVerticalLine(right)) {
+        while (right > left && !checkVerticalLine(right)) {
             right--;
         }
         image = image.getSubimage(left, top, right - left + 1, bottom - top + 1);

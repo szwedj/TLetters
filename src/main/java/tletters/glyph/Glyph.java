@@ -45,9 +45,9 @@ public class Glyph {
 
     private boolean isCharacterCaseAndGlyphCaseMatching() {
         if (this.glyphCase == GlyphCase.UPPER) {
-            return Character.isUpperCase(this.character) || Character.isDigit(this.character);
+            return Character.isUpperCase(this.character);
         } else if (this.glyphCase == GlyphCase.LOWER) {
-            return Character.isLowerCase(this.character);
+            return Character.isLowerCase(this.character) || Character.isDigit(this.character);
         }
         throw new IllegalArgumentException("Invalid glyph case");
     }
