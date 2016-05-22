@@ -2,11 +2,8 @@ package tletters.imagegeneration;
 
 import tletters.image.ImageUtils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
@@ -18,7 +15,7 @@ public class ImageGenerator {
 
     private BufferedImage image;
 
-    public void generateImage(Font font, float fontSize, String text, float noisePercentage) {
+    public ImageGenerator generateImage(Font font, float fontSize, String text, float noisePercentage) {
         font = font.deriveFont(fontSize);
         image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
@@ -38,6 +35,7 @@ public class ImageGenerator {
         g2d.dispose();
         cropImage();
         generateNoise(noisePercentage);
+        return this;
     }
 
     public BufferedImage getGeneratedImage() {
