@@ -20,12 +20,12 @@ public class GlyphExtractorTest {
 
     private static final String TEST_FILE_PATH = "src/test/resources/images/lorem_ipsum.png";
 
-    private GlyphExtractor glyphExtracter;
+    private GlyphExtractor glyphExtractor;
     private BufferedImage bufferedImage;
 
     @Before
     public void setupGlyphExtractor() {
-        glyphExtracter = new GlyphExtractor();
+        glyphExtractor = new GlyphExtractor();
         bufferedImage = null;
     }
 
@@ -39,21 +39,49 @@ public class GlyphExtractorTest {
 
         bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         bufferedImage.setRGB(0, 0, Color.WHITE.getRGB());
-        glyphExtracter.setImage(bufferedImage);
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(0, ((List) linesField.get(glyphExtracter)).size());
+        glyphExtractor.setImage(bufferedImage);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(0, ((List) linesField.get(glyphExtractor)).size());
 
-        glyphExtracter.setImage(
+        bufferedImage.setRGB(0, 0, Color.BLACK.getRGB());
+        glyphExtractor.setImage(bufferedImage);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(1, ((List) linesField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(1, 5);
+        glyphExtractor.setImage(bufferedImage);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(1, ((List) linesField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(5, 1);
+        glyphExtractor.setImage(bufferedImage);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(5, ((List) linesField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(5, 5);
+        glyphExtractor.setImage(bufferedImage);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(5, ((List) linesField.get(glyphExtractor)).size());
+
+        glyphExtractor.setImage(
+                new ImageGenerator()
+                        .generateImage(new Font("Sans", Font.PLAIN, 14), 14, "", 0)
+                        .getGeneratedImage()
+        );
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(0, ((List) linesField.get(glyphExtractor)).size());
+
+        glyphExtractor.setImage(
                 new ImageGenerator()
                         .generateImage(new Font("Sans", Font.PLAIN, 14), 14, "test", 0)
                         .getGeneratedImage()
         );
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(2, ((List) linesField.get(glyphExtracter)).size());
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(1, ((List) linesField.get(glyphExtractor)).size());
 
-        glyphExtracter.setImage(ImageIO.read(new File(TEST_FILE_PATH)));
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(22, ((List) linesField.get(glyphExtracter)).size());
+        glyphExtractor.setImage(ImageIO.read(new File(TEST_FILE_PATH)));
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(20, ((List) linesField.get(glyphExtractor)).size());
     }
 
     @Test
@@ -69,23 +97,72 @@ public class GlyphExtractorTest {
 
         bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         bufferedImage.setRGB(0, 0, Color.WHITE.getRGB());
-        glyphExtracter.setImage(bufferedImage);
-        cutLineWithText.invoke(glyphExtracter);
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(0, ((List) lettersField.get(glyphExtracter)).size());
+        glyphExtractor.setImage(bufferedImage);
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(0, ((List) lettersField.get(glyphExtractor)).size());
 
-        glyphExtracter.setImage(
+        bufferedImage.setRGB(0, 0, Color.BLACK.getRGB());
+        glyphExtractor.setImage(bufferedImage);
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(1, ((List) lettersField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(1, 5);
+        glyphExtractor.setImage(bufferedImage);
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(5, ((List) lettersField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(5, 1);
+        glyphExtractor.setImage(bufferedImage);
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(5, ((List) lettersField.get(glyphExtractor)).size());
+
+        bufferedImage = createLinesOfSinglePixelGlyphs(5, 5);
+        glyphExtractor.setImage(bufferedImage);
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(25, ((List) lettersField.get(glyphExtractor)).size());
+
+        glyphExtractor.setImage(
+                new ImageGenerator()
+                        .generateImage(new Font("Sans", Font.PLAIN, 14), 14, "", 0)
+                        .getGeneratedImage()
+        );
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(0, ((List) lettersField.get(glyphExtractor)).size());
+
+        glyphExtractor.setImage(
                 new ImageGenerator()
                         .generateImage(new Font("Sans", Font.PLAIN, 14), 14, "test test test", 0)
                         .getGeneratedImage()
         );
-        cutLineWithText.invoke(glyphExtracter);
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(14, ((List) lettersField.get(glyphExtracter)).size());
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(12, ((List) lettersField.get(glyphExtractor)).size());
 
-        glyphExtracter.setImage(ImageIO.read(new File(TEST_FILE_PATH)));
-        cutLineWithText.invoke(glyphExtracter);
-        testedMethod.invoke(glyphExtracter);
-        assertEquals(9 + (150 + 56 + 81) * 3, ((List) lettersField.get(glyphExtracter)).size());
+        glyphExtractor.setImage(ImageIO.read(new File(TEST_FILE_PATH)));
+        cutLineWithText.invoke(glyphExtractor);
+        testedMethod.invoke(glyphExtractor);
+        assertEquals(9 + (150 + 56 + 81) * 3, ((List) lettersField.get(glyphExtractor)).size());
+    }
+
+    private BufferedImage createLinesOfSinglePixelGlyphs(int lines, int glyphsPerLine) {
+        int height = lines * 2 - 1;
+        int width = glyphsPerLine * 2 - 1;
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                if (i % 2 == 0 && j % 2 == 0) {
+                    bufferedImage.setRGB(i, j, Color.BLACK.getRGB());
+                } else {
+                    bufferedImage.setRGB(i, j, Color.WHITE.getRGB());
+                }
+            }
+        }
+        return bufferedImage;
     }
 }
